@@ -2,6 +2,7 @@ use bio::io::fasta;
 use bio::io::fasta::Writer;
 use std::fs::File;
 use std::io::{self, Write};
+use std::fs;
 
 // Function to look for overlaps in reads //
 fn find_overlap(seq1: &str, seq2: &str, k: usize) -> usize {
@@ -55,24 +56,32 @@ fn write_to_fasta(sequence: &str, output_file: &str) -> io::Result<()> {
     Ok(())
 }
 
-fn main() {
-    let contigs = vec![
-        "ATGCGTACG".to_string(),
-        "CGTACGTAG".to_string(),
-        "GTACGTACT".to_string(),
-    ];
-    let k = 4;
-    let output_file = "assembled_genome.fasta";
-
-    let assembled_genome = assemble_genome(contigs, k);
-    if !assembled_genome.is_empty() {
-        if let Err(e) = write_to_fasta(&assembled_genome, output_file) {
-            eprintln!("Error writing to FASTA file: {}", e);
-        } else {
-            println!("Genome assembly written to {}", output_file);
-        }
-    } else {
-        println!("Genome assembly failed.");
+fn break_into_reads(genome: &str, read_length: usize) -> Vec<String> {
+    let mut reads = Vec::new();
+    
+    // Iterate through the genome and generate reads of the specified length
+    for i in 0..=genome.len() - read_length {
+        let read = &genome[i..i + read_length];
+        reads.push(read.to_string());
     }
+    
+    reads
 }
 
+fn main() {
+    let genome = fs::read_to_string("/home/mikhailu/Genetics_Code/Varied-Kmer-Assembly-and-Analysis/read_creator/src/vibrio_cholerae_segments.txt");
+    
+    match genome {
+        Ok(genome_data) => {
+            let read_length = 5;
+            let reads = break_into_reads(&genome_data, read_length);
+            
+            for read in reads {
+                println!("{}", read);
+            }
+        }
+        Err(e) => {
+            eprintln!("Error reading genome file: {}", e);
+        }
+    }
+}
