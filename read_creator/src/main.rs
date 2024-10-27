@@ -8,7 +8,7 @@ fn break_into_reads(genome: &str, read_length: usize) -> Vec<String> {
     while i + read_length <= genome.len() {
         let read = &genome[i..i + read_length];
         reads.push(read.to_string());
-        i += read_length - 1; // Move by read_length - 1
+        i += 1; // Move by read_length - 1
     }
 
     reads
