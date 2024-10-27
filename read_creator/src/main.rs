@@ -3,12 +3,12 @@ use std::io::{self, Read, Write, BufReader, BufWriter};
 
 fn break_into_reads(genome: &str, read_length: usize) -> Vec<String> {
     let mut reads = Vec::new();
-    // Use a while loop to control the step size of i
+    // Use a while loop to control the step size of i //
     let mut i = 0;
     while i + read_length <= genome.len() {
         let read = &genome[i..i + read_length];
         reads.push(read.to_string());
-        i += 1; // Move by read_length - 1
+        i += 1; // Iterate by 1 every time //
     }
 
     reads
@@ -19,17 +19,17 @@ fn main() -> io::Result<()> {
     let output_file_path = "vibrio_cholerae_segments.txt";
     let read_length = 10;
 
-    // Read the genome from the input file
+    // Read the genome from the input file //
     let input_file = File::open(input_file_path)?;
     let mut genome = String::new();
     let mut reader = BufReader::new(input_file);
 
     reader.read_to_string(&mut genome)?;
 
-    // Generate the reads
+    // Generate the kmers //
     let reads = break_into_reads(&genome, read_length);
 
-    // Write the reads to the output file
+    // Write the new reads to the output file //
     let output_file = File::create(output_file_path)?;
     let mut writer = BufWriter::new(output_file);
 
