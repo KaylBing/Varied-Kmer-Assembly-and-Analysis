@@ -1,7 +1,0 @@
-Original sequence: ...
-Length: 89
-Traceback (most recent call last):
-  File "/projects/mb163954/VariedKmer/Varied-Kmer-Assembly-and-Analysis/libs/assembler_2/assembler_other.py", line 132, in <module>
-    kval = int(sys.argv[2])
-           ^^^^^^^^^^^^^^^^
-ValueError: invalid literal for int() with base 10: '/var/spool/slurmd/job824912/slurm_script'

@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/projects/mb163954/VariedKmer/Varied-Kmer-Assembly-and-Analysis/libs/assembler_2/assembler_other.py", line 121, in <module>
-    with open(seq_file, "r") as handle:
-         ^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '10'

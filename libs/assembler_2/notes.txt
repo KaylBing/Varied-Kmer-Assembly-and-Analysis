@@ -1,0 +1,4 @@
+- pipeline is good but we can estimate the answer mathematically (maybe)
+- assess how we are building the DBG
+	- just find a path not euleiran ??
+	- change how dbg is built

@@ -1,6 +1,6 @@
 #!/bin/bash
-kmer=$1
-inputfile=$0
+kmer=$2
+inputfile=$1
 #SBATCH --job-name=bad_job
 #SBATCH --output=test_submit.txt
 #SBATCH --nodes=1
