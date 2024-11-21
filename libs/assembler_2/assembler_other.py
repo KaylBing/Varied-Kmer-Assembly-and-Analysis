@@ -126,7 +126,7 @@ if __name__ == "__main__":
     print(f"Original sequence: {sequence[100:200]}...")
     print(f"Length: {len(sequence)}")
 
-    kval = 3
+    kval = sys.argv[2]
     
     reconstructed, details = reconstruct_from_kmers(sequence, k=kval, cyclic=True)
     print(f"K value: {kval}")
