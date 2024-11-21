@@ -1,8 +1,7 @@
 !#bin/bash
 
 kmer=$0
-
-cd libs/read_creator
-cargo run --release $kmer
+inputfile=$1
 
 
+python3 libs/assembler2/assembler_other.py $inputfile $kmer

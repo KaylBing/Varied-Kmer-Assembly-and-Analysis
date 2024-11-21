@@ -1,11 +1,12 @@
 #!/bin/bash
 kmer=$0
-#SBATCH --job-name=cursedPyorbitSandbox
-#SBATCH --output=pyorbitoutput2.log
+inputfile=$1
+#SBATCH --job-name=bad_job
+#SBATCH --output=test_submit.txt
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=64
-#SBATCH --mem=128G
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=12G
 #SBATCH --partition=cpu(all)
 
-bash run_all.sh $kmer
+bash run_all.sh $kmer $inputfile
