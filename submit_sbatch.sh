@@ -1,6 +1,6 @@
 #!/bin/bash
-kmer=$0
-inputfile=$1
+kmer=$1
+inputfile=$0
 #SBATCH --job-name=bad_job
 #SBATCH --output=test_submit.txt
 #SBATCH --nodes=1
@@ -9,4 +9,4 @@ inputfile=$1
 #SBATCH --mem=12G
 #SBATCH --partition=cpu(all)
 
-bash run_all.sh $kmer $inputfile
+bash run_all.sh $inputfile $kmer

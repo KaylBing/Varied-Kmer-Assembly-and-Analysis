@@ -1,7 +1,7 @@
-!#bin/bash
+#!bin/bash
 
-kmer=$0
-inputfile=$1
+kmer=$1
+inputfile=$0
 
 
-python3 libs/assembler2/assembler_other.py $inputfile $kmer
+python3 libs/assembler_2/assembler_other.py $inputfile $kmer

@@ -1,0 +1,2 @@
+run_all.sh: line 1: !#bin/bash: No such file or directory
+python3: can't open file '/projects/mb163954/VariedKmer/Varied-Kmer-Assembly-and-Analysis/libs/assembler2/assembler_other.py': [Errno 2] No such file or directory
