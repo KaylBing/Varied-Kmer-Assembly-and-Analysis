@@ -1,3 +1,4 @@
+use std::env;
 use std::fs::File;
 use std::io::{self, Read, Write, BufReader, BufWriter};
 
@@ -15,9 +16,24 @@ fn break_into_reads(genome: &str, read_length: usize) -> Vec<String> {
 }
 
 fn main() -> io::Result<()> {
+    // Parse command-line arguments //
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() < 2 {
+        eprintln!("Usage: {} <kmer_length>", args[0]);
+        std::process::exit(1);
+    }
+
+    let read_length: usize = match args[1].parse() {
+        Ok(n) => n,
+        Err(_) => {
+            eprintln!("Error: kmer_length must be a positive integer.");
+            std::process::exit(1);
+        }
+    };
+
     let input_file_path = "/home/mikhailu/Genetics_Code/Genomes/Cholerae/Vibrio_cholerae.txt";
     let output_file_path = "vibrio_cholerae_segments.txt";
-    let read_length = 10;
 
     // Read the genome from the input file //
     let input_file = File::open(input_file_path)?;
@@ -40,3 +56,4 @@ fn main() -> io::Result<()> {
     println!("Reads written to {}", output_file_path);
     Ok(())
 }
+
