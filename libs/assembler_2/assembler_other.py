@@ -121,12 +121,15 @@ if __name__ == "__main__":
     with open(seq_file, "r") as handle:
         sequence = handle.read().strip()
 
+    # make sure the sequence is a string with one line (no new line characters)
+    sequence = sequence.replace("\n", "")
+
 
     # sequence = random_sequence(10000)
     print(f"Original sequence: {sequence[100:200]}...")
     print(f"Length: {len(sequence)}")
 
-    kval = sys.argv[2]
+    kval = int(sys.argv[2])
     
     reconstructed, details = reconstruct_from_kmers(sequence, k=kval, cyclic=True)
     print(f"K value: {kval}")
