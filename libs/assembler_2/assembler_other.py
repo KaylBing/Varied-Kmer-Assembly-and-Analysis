@@ -121,8 +121,6 @@ if __name__ == "__main__":
     with open(seq_file, "r") as handle:
         sequence = handle.read().strip()
 
-    sequence = sequence[0:10000]
-
 
     # sequence = random_sequence(10000)
     print(f"Original sequence: {sequence[100:200]}...")
