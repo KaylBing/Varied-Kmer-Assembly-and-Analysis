@@ -1,0 +1,9 @@
+K value: 26
+Percentage of missing kmers: 6.00%
+Runtime: 0.06 seconds
+Score: 6.0
+Identity: 48.1%
+Rotation needed: 13 positions
+Original sequence snippet: TTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGATCTGTTCTCTAAACGAACTTTAAAATCTGTGTGGCTGTCACTCG
+Reconstructed sequence snippet: TCTCTAAACGAACTTTAAAATCTGTGT
+Full reconstructed sequence: TCTCTAAACGAACTTTAAAATCTGTGT
