@@ -149,14 +149,14 @@ if __name__ == "__main__":
         kval = int(sys.argv[2])
         removal_percentage = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
 
-        print(f"Original sequence: {sequence[100:200]}...")
+        print(f"Original sequence: {sequence[0:100]}...")
         print(f"Length: {len(sequence)}")
         print(f"Randomly removing {removal_percentage:.2f}% of kmers.")
 
         reconstructed, details, runtime = reconstruct_from_kmers(sequence, k=kval, cyclic=True,
                                                                   remove_percentage=removal_percentage)
         print(f"K value: {kval}")
-        print(f"\nReconstructed sequence: {reconstructed[100:200]}...")
+        print(f"\nReconstructed sequence: {reconstructed[:100]}...")
         print(f"Score: {details['base_score']:.1f}")
         print(f"Identity: {details['percent_identity']:.1f}%")
         print(f"Rotation needed: {details.get('rotation', 0)} positions")
