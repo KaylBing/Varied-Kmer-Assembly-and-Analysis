@@ -170,8 +170,8 @@ if __name__ == "__main__":
             output_file.write(f"Score: {details['base_score']:.1f}\n")
             output_file.write(f"Identity: {details['percent_identity']:.1f}%\n")
             output_file.write(f"Rotation needed: {details.get('rotation', 0)} positions\n")
-            output_file.write(f"Original sequence snippet: {sequence[100:200]}\n")
-            output_file.write(f"Reconstructed sequence snippet: {reconstructed[100:200]}\n")
+            output_file.write(f"Original sequence snippet: {sequence[:100]}\n")
+            output_file.write(f"Reconstructed sequence snippet: {reconstructed[:100]}\n")
             output_file.write(f"Full reconstructed sequence: {details['reconstructed_sequence']}\n")
 
         print(f"Results saved to {output_filename}")
