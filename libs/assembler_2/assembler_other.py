@@ -2,6 +2,7 @@ from collections import defaultdict, deque
 from typing import List, Dict, Tuple
 import random
 import sys
+import time
 
 
 def get_kmer_count_from_sequence(sequence: str, k: int = 3, cyclic: bool = True) -> Dict[str, int]:
@@ -116,22 +117,35 @@ def score_sequence(original: str, reconstructed: str, circular: bool = True,
 
 
 def reconstruct_from_kmers(sequence: str, k: int, cyclic: bool = True,
-                           remove_percentage: float = 0.0) -> Tuple[str, Dict]:
+                           remove_percentage: float = 0.0) -> Tuple[str, Dict, float]:
+    start_time = time.time()
+
+    # Step 1: Generate kmers
     kmers = get_kmer_count_from_sequence(sequence, k, cyclic)
     if remove_percentage > 0:
         kmers = remove_random_kmers(kmers, remove_percentage)
+
+    # Step 2: Build the graph
     graph = build_de_bruijn_graph(kmers)
+
+    # Step 3: Find Eulerian path
     path = find_eulerian_path(graph)
+
+    # Step 4: Reconstruct sequence
     reconstructed = reconstruct_sequence(path)
 
+    # Step 5: Score the sequence
     score, details = score_sequence(sequence, reconstructed, circular=cyclic)
     details['reconstructed_sequence'] = reconstructed
-    return reconstructed, details
+
+    end_time = time.time()
+    runtime = end_time - start_time  # Calculate runtime in seconds
+    return reconstructed, details, runtime
 
 
 if __name__ == "__main__":
     # Example usage
-    # read seq from command line (it will be a txt file)
+    # Read sequence from command line (it will be a txt file)
     seq_file = sys.argv[1]
     with open(seq_file, "r") as handle:
         sequence = handle.read().strip()
@@ -146,9 +160,10 @@ if __name__ == "__main__":
     print(f"Length: {len(sequence)}")
     print(f"Randomly removing {removal_percentage:.2f}% of kmers.")
 
-    reconstructed, details = reconstruct_from_kmers(sequence, k=kval, cyclic=True, remove_percentage=removal_percentage)
+    reconstructed, details, runtime = reconstruct_from_kmers(sequence, k=kval, cyclic=True, remove_percentage=removal_percentage)
     print(f"K value: {kval}")
     print(f"\nReconstructed sequence: {reconstructed[100:200]}...")
     print(f"Score: {details['base_score']:.1f}")
     print(f"Identity: {details['percent_identity']:.1f}%")
     print(f"Rotation needed: {details.get('rotation', 0)} positions")
+    print(f"Runtime: {runtime:.2f} seconds")
