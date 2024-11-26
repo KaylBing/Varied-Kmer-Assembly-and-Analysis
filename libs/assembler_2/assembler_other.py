@@ -1,8 +1,19 @@
+import signal
 from collections import defaultdict, deque
 from typing import List, Dict, Tuple
 import random
 import sys
 import time
+
+
+class TimeoutException(Exception):
+    """Custom exception for timeout."""
+    pass
+
+
+def timeout_handler(signum, frame):
+    """Signal handler for timeout."""
+    raise TimeoutException("The genome reconstruction process timed out.")
 
 
 def get_kmer_count_from_sequence(sequence: str, k: int = 3, cyclic: bool = True) -> Dict[str, int]:
@@ -144,26 +155,36 @@ def reconstruct_from_kmers(sequence: str, k: int, cyclic: bool = True,
 
 
 if __name__ == "__main__":
-    # Example usage
-    # Read sequence from command line (it will be a txt file)
-    seq_file = sys.argv[1]
-    with open(seq_file, "r") as handle:
-        sequence = handle.read().strip()
+    # Set timeout for genome reconstruction (10 minutes)
+    timeout_seconds = 600  # 10 minutes
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(timeout_seconds)
 
-    # Make sure the sequence is a string with one line (no new line characters)
-    sequence = sequence.replace("\n", "")
+    try:
+        # Read sequence from command line (it will be a txt file)
+        seq_file = sys.argv[1]
+        with open(seq_file, "r") as handle:
+            sequence = handle.read().strip()
 
-    kval = int(sys.argv[2])
-    removal_percentage = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
+        # Make sure the sequence is a string with one line (no new line characters)
+        sequence = sequence.replace("\n", "")
 
-    print(f"Original sequence: {sequence[100:200]}...")
-    print(f"Length: {len(sequence)}")
-    print(f"Randomly removing {removal_percentage:.2f}% of kmers.")
+        kval = int(sys.argv[2])
+        removal_percentage = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
 
-    reconstructed, details, runtime = reconstruct_from_kmers(sequence, k=kval, cyclic=True, remove_percentage=removal_percentage)
-    print(f"K value: {kval}")
-    print(f"\nReconstructed sequence: {reconstructed[100:200]}...")
-    print(f"Score: {details['base_score']:.1f}")
-    print(f"Identity: {details['percent_identity']:.1f}%")
-    print(f"Rotation needed: {details.get('rotation', 0)} positions")
-    print(f"Runtime: {runtime:.2f} seconds")
+        print(f"Original sequence: {sequence[100:200]}...")
+        print(f"Length: {len(sequence)}")
+        print(f"Randomly removing {removal_percentage:.2f}% of kmers.")
+
+        reconstructed, details, runtime = reconstruct_from_kmers(sequence, k=kval, cyclic=True,
+                                                                  remove_percentage=removal_percentage)
+        print(f"K value: {kval}")
+        print(f"\nReconstructed sequence: {reconstructed[100:200]}...")
+        print(f"Score: {details['base_score']:.1f}")
+        print(f"Identity: {details['percent_identity']:.1f}%")
+        print(f"Rotation needed: {details.get('rotation', 0)} positions")
+        print(f"Runtime: {runtime:.2f} seconds")
+
+    except TimeoutException as e:
+        print(f"Error: {e}")
+        sys.exit(1)  # Exit with an error code if timeout occurs
